@@ -16,12 +16,13 @@ categories = {
     ".zip": "Archives",
     ".rar": "Archives",
 }
-
+report = {}
 for file in downloads.iterdir():
     if not file.is_file():
      continue
 
     category = categories.get(file.suffix.lower(), "Others")
+    report[category] = report.get(category, 0) + 1
 
     folder = downloads / category
 
@@ -30,4 +31,8 @@ for file in downloads.iterdir():
     shutil.move(file,folder / file.name)
 
     print(f"{file.name} -> {category}")
-     
+
+print("\n--- Report ---")
+
+for category, count in report.items():
+    print(f"{category}: {count} files")
